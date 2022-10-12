@@ -179,18 +179,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
+// function getModalStyle() {
+//   const top = 50;
+//   const left = 50;
 
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
+//   return {
+//     top: `${top}%`,
+//     left: `${left}%`,
+//     transform: `translate(-${top}%, -${left}%)`,
+//   };
+// }
 
-const dateRanges = [7, 30, 60, 90, 91, 92, 180, 365, 730];
+var now = new Date();
+var start = new Date(now.getFullYear(), 0, 0);
+var diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+var oneDay = 1000 * 60 * 60 * 24;
+var day = Math.floor(diff / oneDay);
+
+const dateRanges = [7, 30, 60, 90, 91, 92, 180, 365, 730, day - 1, day];
 
 const ActivityTable = ({
   activities,
@@ -209,11 +215,11 @@ const ActivityTable = ({
   let sevenDays = today.toISOString().slice(0, 10);
 
   const classes = useStyles();
-  const [modalStyle] = useState(getModalStyle);
-  const [open, setOpen] = useState(false);
-  const [edit, setEdit] = useState(false);
-  const [dateRange, setDateRange] = useState(30);
-  const [newNote, setNewNote] = useState('');
+  // const [modalStyle] = useState(getModalStyle);
+  // const [open, setOpen] = useState(false);
+  // const [edit, setEdit] = useState(false);
+  // const [dateRange, setDateRange] = useState(30);
+  // const [newNote, setNewNote] = useState('');
   const [deleteOpen, setDeleteOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = useState({});
   const [totalAmount, setTotalAmount] = useState(0);
@@ -252,7 +258,7 @@ const ActivityTable = ({
 
   const handleDelete = () => {
     firebase.activity(selectedItem.uid).remove();
-    setOpen(false);
+    // setOpen(false);
     setDeleteOpen(false);
   };
   const handleChangeMember = (event) => {
@@ -517,6 +523,7 @@ const ActivityTable = ({
                   </MenuItem>
                 );
               }
+              return
             })}
           </Select>
         </Grid>
