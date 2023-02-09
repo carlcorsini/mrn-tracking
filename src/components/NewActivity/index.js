@@ -106,7 +106,7 @@ const NewActivity = ({ firebase, history }) => {
     firebase
       .users()
       .orderByChild('email')
-      .limitToLast(30)
+      .limitToLast(50)
       .on('value', (snapshot) => {
         const usersObject = snapshot.val();
         if (usersObject) {
@@ -114,6 +114,7 @@ const NewActivity = ({ firebase, history }) => {
             ...usersObject[uid],
             uid,
           }));
+
           usersList.sort(function (a, b) {
             if (a.username < b.username) {
               return -1;
